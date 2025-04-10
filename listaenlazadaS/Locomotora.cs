@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,19 +65,60 @@ namespace listaenlazadaS{
         }
 
         public int Largo() {
-            return 0;
+            if (this.Primero == null) {
+                return 0;
+            } else {
+                int cant = 0;
+                Vagon tmp = this.Primero;
+                while (tmp != null) {
+                    cant++;
+                    tmp = tmp.Sig;
+                }
+                return cant;
+            }
         }
 
         public int GetValor(int pos) {
-            return 0;
+            int indice = 0;
+            Vagon tmp = this.Primero;
+            while (tmp != null) {
+                if (indice == pos) {
+                    return tmp.Dato;
+                }
+                indice++;
+                tmp = tmp.Sig;
+            }
+            return int.MinValue;
+        }
+
+        public void SetValor(int pos, int valor) {
+            int indice = 0;
+            Vagon tmp = this.Primero;
+            while (tmp != null) {
+                if (indice == pos) {
+                    tmp.Dato = valor;
+                }
+                indice++;
+                tmp = tmp.Sig;
+            }
         }
 
         public void AgregaLEFinal(Locomotora otro) {
-
+            for (int x = 0; x< otro.Largo(); x++) {
+                this.AgregaFinal(otro.GetValor(x));
+            }
         }
 
         public void Ordena() {
-
+            for (int x = 0; x < this.Largo(); x++) {
+                for (int pos = 0; pos < this.Largo() - 1;pos++) {
+                    if (this.GetValor(pos) > this.GetValor(pos +1)) {
+                        int temporal = this.GetValor(pos);
+                        this.SetValor(pos, this.GetValor(pos + 1)) ;
+                        this.SetValor(pos + 1, temporal);
+                    }
+                }
+            }
         }
 
         public bool ExisteValor(int valor) {
